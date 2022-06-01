@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Lens" representedClassName="Lens" syncable="YES">
+        <attribute name="axis" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="curvature" attributeType="Float" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="cylinder" optional="YES" attributeType="Float" maxValueString="0" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="diameter" attributeType="Float" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="isToric" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="power" attributeType="Float" minValueString="-30" maxValueString="30" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Pair" representedClassName="Pair" syncable="YES">
+        <attribute name="endAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="left" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lens"/>
+        <relationship name="right" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lens"/>
+    </entity>
+    <elements>
+        <element name="Lens" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="Pair" positionX="-63" positionY="9" width="128" height="89"/>
+    </elements>
+</model>
