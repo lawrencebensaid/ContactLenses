@@ -15,30 +15,46 @@ struct PairsListView: View {
     
     @EnvironmentObject private var context: AppContext
 
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Pair.startAt, ascending: false)], animation: .default)
-    private var items: FetchedResults<Pair>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \LensPair.startAt, ascending: false)], animation: .default)
+    private var pairs: FetchedResults<LensPair>
 
     var body: some View {
-        List {
-            ForEach(items) { pair in
-                PairItemView(pair)
-                    .contextMenu { contextMenu(for: pair) }
-                    .swipeActions(edge: .leading) {
-                        Button("Edit") {
-                            context.present(.editPair(pair))
-                        }
-                        .tint(.blue)
+        Group {
+            if pairs.isEmpty {
+                VStack(spacing: 12) {
+                    Text("No schedule")
+                        .font(.title)
+                        .foregroundColor(.secondary)
+                    Button {
+                        editNewPair()
+                    } label: {
+                        Text("Add lenses")
                     }
-                    .swipeActions(edge: .trailing) {
-                        Button("Delete") {
-                            context.present(.deletePair([pair]))
-                        }
-                        .tint(.red)
+                }
+            } else {
+                List {
+                    ForEach(pairs) { pair in
+                        PairItemView(pair)
+                            .contextMenu { contextMenu(for: pair) }
+                            .swipeActions(edge: .leading) {
+                                Button("Edit") {
+                                    context.present(.editPair(pair))
+                                }
+                                .disabled(pairs.isEmpty)
+                                .tint(.blue)
+                            }
+                            .swipeActions(edge: .trailing) {
+                                Button("Delete") {
+                                    context.present(.deletePair([pair]))
+                                }
+                                .tint(.red)
+                            }
                     }
+                }
             }
         }
         .onAppear {
-            let pairs = try? viewContext.fetch(Pair.fetchRequest())
+            let pairs = try? viewContext.fetch(LensPair.fetchRequest())
             LocalNotification.remove(.all)
             for pair in pairs ?? [] {
                 LocalNotification(body: "Replacement needed").schedule(pair.endAt)
@@ -48,10 +64,16 @@ struct PairsListView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
+                        editNewPair()
+                    } label: {
+                        Label("Add lenses", systemImage: "plus")
+                    }
+                    Button {
                         editMode?.wrappedValue = editMode?.wrappedValue == .active ? .inactive : .active
                     } label: {
                         Label("Edit", systemImage: "pencil")
                     }
+                    .disabled(pairs.isEmpty)
                     Divider()
                     Button {
                         context.present(.settings)
@@ -62,16 +84,11 @@ struct PairsListView: View {
                     Label("More", systemImage: "ellipsis.circle")
                 }
             }
-            ToolbarItem {
-                Button(action: addItem) {
-                    Label("Add Item", systemImage: "plus")
-                }
-            }
         }
     }
     
     @ViewBuilder
-    private func contextMenu(for pair: Pair) -> some View {
+    private func contextMenu(for pair: LensPair) -> some View {
         Button {
             context.present(.editPair(pair))
         } label: {
@@ -83,11 +100,10 @@ struct PairsListView: View {
             Label("Delete", systemImage: "trash")
         }
     }
-    
 
-    private func addItem() {
-        let last = items.first?.copy()
-        let pair: Pair = last ?? Pair(context: viewContext)
+    private func editNewPair() {
+        let last = pairs.first?.copy()
+        let pair: LensPair = last ?? LensPair(context: viewContext)
         pair.startAt = Date()
         pair.endAt = Date().addingTimeInterval(30 * 24 * 60 * 60)
         if last == nil {

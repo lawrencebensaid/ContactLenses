@@ -9,9 +9,9 @@ import SwiftUI
 
 struct PairItemView: View {
     
-    private var pair: Pair
+    private var pair: LensPair
     
-    public init(_ pair: Pair) {
+    public init(_ pair: LensPair) {
         self.pair = pair
     }
     

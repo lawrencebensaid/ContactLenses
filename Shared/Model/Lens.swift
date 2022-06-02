@@ -14,6 +14,7 @@ public class Lens: NSManagedObject {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Lens> { NSFetchRequest<Lens>(entityName: "Lens") }
     
+    @NSManaged private var material_: String
     @NSManaged public var power: Float
     @NSManaged public var diameter: Float
     @NSManaged public var curvature: Float
@@ -23,15 +24,9 @@ public class Lens: NSManagedObject {
     @NSManaged public var cylinder: Float
     @NSManaged public var axis: Int16
     
-    public var id: Int {
-        var hasher = Hasher()
-        hasher.combine(power)
-        hasher.combine(diameter)
-        hasher.combine(curvature)
-        hasher.combine(isToric)
-        hasher.combine(cylinder)
-        hasher.combine(axis)
-        return hasher.finalize()
+    public var material: Material {
+        get { .init(rawValue: material_) ?? .soft }
+        set { material_ = newValue.rawValue }
     }
     
     public override var description: String {
@@ -40,6 +35,11 @@ public class Lens: NSManagedObject {
             string += " Toric"
         }
         return string
+    }
+    
+    public enum Material: String {
+        case soft = "soft"
+        case hard = "hard"
     }
     
     public func copy(_ managedObjectContext: NSManagedObjectContext? = nil) -> Lens? {
@@ -57,5 +57,16 @@ public class Lens: NSManagedObject {
 }
 
 extension Lens: Identifiable {
+    
+    public var id: Int {
+        var hasher = Hasher()
+        hasher.combine(power)
+        hasher.combine(diameter)
+        hasher.combine(curvature)
+        hasher.combine(isToric)
+        hasher.combine(cylinder)
+        hasher.combine(axis)
+        return hasher.finalize()
+    }
     
 }

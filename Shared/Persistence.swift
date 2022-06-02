@@ -14,7 +14,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Pair(context: viewContext)
+            let newItem = LensPair(context: viewContext)
             newItem.startAt = Date()
             newItem.endAt = Date().addingTimeInterval(30 * 24 * 60 * 60)
         }

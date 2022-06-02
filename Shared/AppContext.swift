@@ -10,22 +10,22 @@ import SwiftUI
 class AppContext: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     
     enum UserAction: Identifiable {
-        case editPair(Pair)
-        case deletePair([Pair])
+        case editPair(LensPair)
+        case deletePair([LensPair])
         case settings
         
         var id: String { Mirror(reflecting: self).children.first?.label ?? "\(self)" }
     }
     
     enum PresentedSheet: Identifiable {
-        case editPair(Pair)
+        case editPair(LensPair)
         case settings
         
         var id: String { Mirror(reflecting: self).children.first?.label ?? "\(self)" }
     }
     
     enum PresentedAlert: Identifiable {
-        case deletePair([Pair])
+        case deletePair([LensPair])
         case notificationPrompt
         
         var id: String { Mirror(reflecting: self).children.first?.label ?? "\(self)" }
