@@ -1,0 +1,33 @@
+/*
+  Localizable.strings
+  ContactLenses
+
+  Created by Lawrence Bensaid on 6/2/22.
+  
+*/
+
+// UI
+"Close" = "Sluiten";
+"Save" = "Opslaan";
+"Edit" = "Wijzig";
+"Delete" = "Verwijder";
+"Add lenses" = "Lenzen invoeren";
+"Settings" = "Instellingen";
+"Test push notifications" = "Test push meldingen";
+"APN authorized" = "APN geauthoriseerd";
+"APN denied" = "APN geweigerd";
+"Replacement needed %@" = "Vervanging nodig %@";
+
+// Terms
+"Material" = "Materiaal";
+"Soft" = "Zacht";
+"Daily" = "Daglenzen";
+"Extended" = "Maandlenzen";
+"Power" = "Sterkte";
+"Curvature" = "Basiscurve";
+"Left contact lens" = "Linker lens";
+"Right contact lens" = "Rechter lens";
+"Wear / replacement schedule" = "Draag schema";
+
+// Other
+"No schedule" = "Geen plan";
